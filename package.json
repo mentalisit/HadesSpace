@@ -1,0 +1,63 @@
+{
+  "name": "hades-space",
+  "author": "Xinos",
+  "version": "4.2.0",
+  "type": "module",
+  "scripts": {
+    "build": "npm run parser && npm run i18n:full && vite build",
+    "dev": "vite",
+    "i18n": "cd i18n && npm run start",
+    "i18n:full": "cd i18n && npm run start -- --full",
+    "parser": "cd parser && npm run start",
+    "postinstall": "(cd parser && npm install && cd ..) && (cd i18n && npm install && cd ..)",
+    "test": "jest"
+  },
+  "web-types": "./web-types.json",
+  "dependencies": {
+    "@aacassandra/vue3-progressbar": "^1.0.3",
+    "@intlify/vue-i18n-loader": "^4.2.0",
+    "@vitejs/plugin-vue": "^4.5.0",
+    "@vueuse/head": "^1.1.26",
+    "bot_client": "github:mentalisit/compendium-new",
+    "jsoncrush": "^1.1.8",
+    "lodash.debounce": "^4.0.8",
+    "parse-markdown-table": "^0.0.6",
+    "sass": "^1.62.1",
+    "typescript": "^5.0.4",
+    "vite": "^5.0.12",
+    "vite-plugin-dynamic-import": "^1.5.0",
+    "vite-plugin-pwa": "^0.17.0",
+    "vue": "^3.3.2",
+    "vue-gtag": "^2.0.1",
+    "vue-i18n": "^9.7.0",
+    "vue-markdown-render": "^2.1.1",
+    "vue-router": "^4.2.0",
+    "vue3-touch-events": "^4.1.2",
+    "vuex": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "@types/markdown-it": "^12.2.3",
+    "@typescript-eslint/eslint-plugin": "^5.59.5",
+    "@typescript-eslint/parser": "^5.59.5",
+    "eslint": "^8.54.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-typescript": "^3.0.0",
+    "eslint-plugin-vue": "^8.7.1",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
+    "vue-eslint-parser": "^9.3.2"
+  },
+  "bugs": {
+    "url": "https://github.com/mentalisit/HadesSpaceNew/issues"
+  },
+  "eslintIgnore": [
+    "public"
+  ],
+  "homepage": "https://github.com/mentalisit/HadesSpaceNew",
+  "license": "GNU AFFERO GENERAL PUBLIC LICENSE V3",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mentalisit/HadesSpaceNew.git"
+  }
+}

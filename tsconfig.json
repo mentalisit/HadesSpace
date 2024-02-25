@@ -1,0 +1,52 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "strict": true,
+    "jsx": "preserve",
+    "moduleResolution": "node",
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "useDefineForClassFields": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "isolatedModules": true,
+    "types": [
+      "webpack-env",
+      "@types/jest"
+    ],
+    "paths": {
+      "@Data/*": ["parser/dist/*"],
+      "@i18n/*": ["i18n/dist/*"],
+      "@Regulation/*": ["src/regulation/*"],
+      "@Utils/*": ["src/utils/*"],
+      "@Handlers/*": ["src/utils/Handlers/*"],
+      "@/*": ["src/*"]
+    },
+    "lib": [
+      "esnext",
+      "es6",
+      "es5",
+      "dom",
+      "dom.iterable",
+      "scripthost"
+    ]
+  },
+  "typeRoots": [
+    "src/typings",
+    "node_modules/@types/"
+  ],
+  "include": [
+    "src/**/*.ts",
+    "src/**/**/**/*.ts",
+    "src/components/*.vue",
+    "tests/**/*.ts",
+    "tests/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "parser": "vue-eslint-parser",
+  "extends": [
+    "eslint:recommended",
+    "google",
+    "plugin:vue/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "sourceType": "module",
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint"]
+  },
+  "env": {
+    "node": true,
+    "es2022": true
+  },
+  "rules": {
+    "arrow-parens": ["error", "always"],
+    "prefer-destructuring": ["error"],
+    "indent": ["error", 4],
+    "object-curly-spacing": ["error", "always"],
+    "space-infix-ops": ["error"],
+    "prefer-template": ["error"],
+    "curly": ["error"],
+    "space-before-blocks": ["error", "always"],
+    "lines-between-class-members": ["error", "always"],
+
+    "@typescript-eslint/no-unused-vars": ["error"],
+
+    "vue/singleline-html-element-content-newline": "off",
+    "vue/multiline-html-element-content-newline": "off",
+    "vue/multi-word-component-names": "off",
+    "vue/no-unused-vars": ["error", {"ignorePattern": "^_"}],
+    "vue/no-v-model-argument": "off",
+
+    "require-jsdoc": 0,
+    "inebreak-style": 0,
+    "max-len": 0
+  }
+}

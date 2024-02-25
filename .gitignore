@@ -1,0 +1,17 @@
+
+# Файлы редактора
+.idea
+.vscode
+
+# Вспомогательные файлы
+node_modules/
+.cache/
+.directory
+.env.development
+
+#psd
+src/img/logo.psd
+
+# Папка с собранными файлами проекта
+dist/
+dev-dist/

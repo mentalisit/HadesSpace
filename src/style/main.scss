@@ -1,0 +1,43 @@
+//noinspection CssUnknownTarget
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap');
+@import "./vars";
+@import "@Regulation/statsStyle";
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Fira Sans', sans-serif;
+    color: $text-color;
+}
+
+body, html {
+    background: $background;
+    overflow-x: hidden;
+    scrollbar-color: #48555c $background;
+
+    ::-webkit-scrollbar {
+        background: $background;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #48555c;
+    }
+}
+
+a {
+    text-decoration: none;
+
+    &:visited, &:link {
+        color: #036fa0;
+    }
+    &:active, &:hover  {
+        color: #029be0;
+        text-decoration: underline;
+    }
+
+    &[target="_blank"] {
+        &:after {
+            padding: 5px;
+            content: url("../img/icons/outbound.svg");
+        }
+    }
+}

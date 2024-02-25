@@ -1,0 +1,30 @@
+.reset-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  font-size: 90%;
+}
+
+.hide {
+  visibility: hidden;
+}
+.none {
+  display: none;
+}
+.yellow-color {
+  color: #ffdc0c;
+  white-space: nowrap;
+
+  &.plus {
+    &:before {
+      content: " + ";
+    }
+  }
+
+}
+.green-color {
+  color: #1e7e34;
+}
+.muffle {
+  opacity: 0.5;
+}

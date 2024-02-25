@@ -1,0 +1,52 @@
+// noinspection SpellCheckingInspection
+
+export default [
+    [
+        [
+            'UnlockTime',
+            'SpawnLifetime',
+            'ActivationDelay',
+            'ActivationPrep',
+            'TimeToFullyRegen',
+            'ShieldRegenDelay',
+            'DesignUpgradeTime',
+            'DisableTime',
+            'SectorUnlockTime',
+            'TimeToUpgrade',
+            'TimeToResearch',
+            'TimeToLoad',
+            'Lifetime',
+            'ConstructionTime',
+            'BlueStar_CRRewardWinLimitPeriod',
+            'WSJumpBSTimeCooldown',
+            'WSJumpOtherTimeCooldown',
+            'ProximityTriggerSec',
+            'SpawnFleetIntervalSeconds',
+            'ShieldRegenTimeAfterDamage',
+            'SectorEnrichCooldownSeconds',
+            'TurretSetupTime',
+            'SectorGenesisCooldownSeconds',
+            'AIUpdateIntervalSeconds',
+            'WSLostShipTimeCooldown',
+            'WSDisbandCooldown',
+            'DPSRampTimes',
+            'RSLESec',
+            'ImpulseDuration',
+            'FleetDepartTimeInSeconds',
+            'TimeToUpgradeParallel',
+        ],
+        (v) => v,
+    ],
+    [
+        ['APTPIOTTP'],
+        (v) => v / 5,
+    ],
+    [
+        ['EffectDurationx10'],
+        (v) => v / 10,
+    ],
+    [
+        ['TargetSwitchTicks', 'MirrorShieldTickPeriod', 'DispatchActivTicks', 'RelicLoadTicks', 'PeriodSpawnTicks'],
+        (v, {TicksPerSecond}) => v / TicksPerSecond,
+    ],
+]

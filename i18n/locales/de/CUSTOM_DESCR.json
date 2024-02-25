@@ -1,0 +1,3 @@
+{
+  "TID_YS_SECTORS": "Hinweis: Die Sektor-Nr (Nummer) sind zufällig innerhalb ihres \"Clusters\", die Cluster sind jedoch nicht an den Kurzstreckenscanner gebunden. Außer in den ersten 6 Sektoren - in diesen gibt es keine Zufälligkeit"
+}
