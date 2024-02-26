@@ -11,7 +11,7 @@ const isDev = process.env.NODE_ENV === 'development';
 const currentDate = new Date();
 
 export default defineConfig({
-    base: (isDev ? '/' : `/HadesSpaceNew/`),
+    base: (isDev ? '/' : `/HadesSpace/`),
     server: {
         port: 8080,
     },
@@ -45,7 +45,7 @@ export default defineConfig({
             includeAssets: ['favicon.svg'],
             manifest: {
                 name: 'Hades Space',
-                short_name: 'HadesSpaceNew',
+                short_name: 'HadesSpace',
                 description: 'Current information about the game Hades\' star',
                 theme_color: '#161b1d',
                 background_color: '#000000',
