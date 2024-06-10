@@ -45,7 +45,7 @@ export default defineConfig({
             includeAssets: ['favicon.svg'],
             manifest: {
                 name: 'Hades Space',
-                short_name: 'HadesSpace',
+                short_name: 'HadesSpace By Mentalisit',
                 description: 'Current information about the game Hades\' star',
                 theme_color: '#161b1d',
                 background_color: '#000000',

@@ -143,7 +143,7 @@ import { Guild as Guild2, Identity as Identity2, User as User2, Compendium as Cl
 import client, { init as clientInit, switchInstance } from '@Utils/compendium';
 import memberImage from '@Img/icons/member.png';
 import types from '@/store/types';
-
+import types2 from '@/store/modules/userSettings/types';
 import Modal, { SIZES } from '@/components/Modal.vue';
 
 // ex: Y3cf-Hymz-v2Qs
@@ -159,7 +159,7 @@ const isFetching = ref(false);
 const user = ref<User|User2|null>();
 const guild = ref<Guild|Guild2>();
 const defaultSwitchClient = ref(localStorage.getItem('compendium_client') ? parseInt(localStorage.getItem('compendium_client'), 10) : 0);
-const linkUrl = computed(() => 
+const linkUrl = computed(() =>
     defaultSwitchClient.value === 0 ? 'https://hs-compendium.com/' : 'https://compendiumnew.mentalisit.myds.me/links'
 );
 const linkText = computed(() => defaultSwitchClient.value === 0 ? 'HS Compendium' : 'invite');
@@ -176,6 +176,9 @@ onMounted(async () => {
         if ('client' in router.currentRoute.value.query) {
             defaultSwitchClient.value = parseInt(router.currentRoute.value.query.client as string, 10);
             selectClient(parseInt(router.currentRoute.value.query.client as string, 10));
+        }
+        if ('lang' in router.currentRoute.value.query) {
+            store.commit(types2.SET_LANGUAGE, router.currentRoute.value.query.lang as string);
         }
         if ('c' in router.currentRoute.value.query) {
             reqCode.value = router.currentRoute.value.query.c as string;
