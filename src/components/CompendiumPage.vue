@@ -167,7 +167,18 @@ const linkText = computed(() => defaultSwitchClient.value === 0 ? 'HS Compendium
 onMounted(async () => {
     isFetching.value = true;
     await clientInit();
-    const u = client.value.getUser();
+    let u = client.value.getUser();
+    if (('secretToken' in router.currentRoute.value.query) && (!u)) {
+        const i: Identity2 = {
+            token: router.currentRoute.value.query.secretToken as string,
+            guild: { url: '', id: '', name: '', icon: '' },
+        };
+        defaultSwitchClient.value = 1;
+        selectClient(1);
+        await client.value.connect(i);
+        u = client.value.getUser();
+    }
+
     isFetching.value = false;
 
     if (!u) {
