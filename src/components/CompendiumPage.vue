@@ -214,6 +214,10 @@ async function applyReqCode() {
 
     try {
         ident = await client.value.checkConnectCode(reqCode.value);
+        if (ident.user.discriminator == 'original') {
+            defaultSwitchClient.value = 0;
+            selectClient(0);
+        }
     } catch (e: unknown) {
         error.value = (e as Error).toString();
         console.error(e);
