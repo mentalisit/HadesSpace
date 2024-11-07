@@ -161,7 +161,7 @@ import { getTechFromIndex } from 'bot_client/src/module_types';
 
 
 const DISPLAY_USER_TECH_ITEMS = 5;
-const MAX_ITEMS_PAGE = 50;
+const MAX_ITEMS_PAGE = 100;
 
 interface UserInfo {
   [k: string]: {
