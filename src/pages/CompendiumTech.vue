@@ -62,7 +62,7 @@
 <script setup lang="ts">
 import { ref, reactive, h, VNode, onUnmounted, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { getTechIndex } from 'bot_client';
+import { getTechIndex } from 'bot_client2';
 import compendiumTechListLogic from '@/composables/compendiumTechList';
 import { sec2biggestTime } from '@/utils/sec2str';
 
