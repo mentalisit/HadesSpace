@@ -138,7 +138,7 @@
 
 <!--suppress TypeScriptCheckImport, TypeScriptUnresolvedReference -->
 <script setup lang="ts">
-import { CorpData, CorpMember, getTechIndex } from 'bot_client';
+import { CorpData, CorpMember, getTechIndex } from 'bot_client2';
 import { onMounted, reactive, Ref, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
@@ -157,7 +157,7 @@ import shipsData from '@Data/capital_ships.js';
 import spaceBuildingsData from '@Data/spacebuildings.js';
 import modulesData from '@Data/modules.js';
 import objectArrayify from '../utils/objectArrayify';
-import { getTechFromIndex } from 'bot_client/src/module_types';
+import { getTechFromIndex } from 'bot_client2/src/module_types';
 
 
 const DISPLAY_USER_TECH_ITEMS = 5;

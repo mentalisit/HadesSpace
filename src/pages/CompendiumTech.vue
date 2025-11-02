@@ -80,7 +80,7 @@ import shipsData from '@Data/capital_ships.js';
 import allianceData from '@Data/alliance_levels.js';
 import spaceBuildingsData from '@Data/spacebuildings.js';
 import modulesData from '@Data/modules.js';
-import { TechLevel } from 'bot_client/src/bot_api';
+import { TechLevel } from 'bot_client2/src/bot_api';
 import { tableOpts } from '@/components/ModulePage.vue';
 
 const spaceBuildings = { RedStarScanner: spaceBuildingsData.RedStarScanner, ShipmentRelay: spaceBuildingsData.ShipmentRelay };

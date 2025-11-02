@@ -184,7 +184,7 @@ import statsStyleName from '../utils/Handlers/statsStyleName';
 import byTypes from '@Regulation/byTypes.js';
 import objectArrayify from '@Utils/objectArrayify';
 import userSettingsTypes from '@/store/modules/userSettings/types';
-import { getTechIndex } from 'bot_client';
+import { getTechIndex } from 'bot_client2';
 
 import globals from '@Data/globals.js';
 import modulesData from '@Data/modules.js';

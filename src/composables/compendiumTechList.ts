@@ -1,9 +1,9 @@
 import { onMounted, ref, watch } from 'vue';
 
 import objectArrayify from '@Utils/objectArrayify';
-import { getTechFromIndex } from 'bot_client/src/module_types';
+import { getTechFromIndex } from 'bot_client2/src/module_types';
 import client from '../utils/compendium';
-import { TechLevels } from 'bot_client';
+import { TechLevels } from 'bot_client2';
 import debounce from 'lodash.debounce';
 
 declare type SetTechLevel = (techId: number, level: number) => Promise<void>;
