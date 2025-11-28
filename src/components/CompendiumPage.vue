@@ -4,24 +4,26 @@
     <div class="header">
       <div class="content">
         <div>
-          <div
-            v-if="user?.alts?.length"
-            class="select alt-switch"
-          >
-            <select
-              :value="client.selectedAlt"
-              @change="selectUserAlt($event.target.value)"
+          <slot name="custom-selector">
+            <div
+              v-if="user?.alts?.length"
+              class="select alt-switch"
             >
-              <option value="default">{{ user?.username }}</option>
-              <option
-                v-for="(alt, index) in user?.alts"
-                :key="index"
-                :value="alt"
+              <select
+                :value="client.selectedAlt"
+                @change="selectUserAlt($event.target.value)"
               >
-                {{ alt }}
-              </option>
-            </select>
-          </div>
+                <option value="default">{{ user?.username }}</option>
+                <option
+                  v-for="(alt, index) in user?.alts"
+                  :key="index"
+                  :value="alt"
+                >
+                  {{ alt }}
+                </option>
+              </select>
+            </div>
+          </slot>
         </div>
         <div
           v-if="isFetching && !user"
