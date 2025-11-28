@@ -1,0 +1,1 @@
+import{_ as r}from"./ModulePage.vue_vue_type_script_setup_true_lang-DwY0rRez.js";import{c as t,o}from"./index-BxdLM6dm.js";import"./Page-C2Q7bLxE.js";import"./Data-BdbBIQkG.js";import"./globals-CXCjQ2-e.js";import"./sec2str-CXI2qXNW.js";const f={__name:"Mining",setup(i){return(p,_)=>(o(),t(r,{type:"Mining",portrait:"portrait_Asteroids_cr.png"}))}};export{f as default};
