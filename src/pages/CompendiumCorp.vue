@@ -276,30 +276,18 @@ watch(filterRoleId, async (value) => {
 
     // При выборе роли делаем запрос с corpId И roleId
     if (selectedCorporationId.value) {
-        // Проверяем, является ли выбранная роль "@everyone" (означает все роли)
-        const selectedRole = data.value.roles?.find(role => role.id === value);
-        const isEveryoneRole = selectedRole?.name === '@everyone';
-        const roleIdToSend = isEveryoneRole ? null : value; // Для @everyone не передаем roleId
-
-        console.log('📡 [ROLE FILTER REQUEST] corpId:', selectedCorporationId.value, 'roleId:', roleIdToSend, '(selected role:', selectedRole?.name + ')');
+        console.log('📡 [ROLE FILTER REQUEST] corpId:', selectedCorporationId.value, 'roleId:', value);
 
         isFetching.value = true;
         try {
             const resp = await client.value.corpdata({
                 corpId: selectedCorporationId.value, // Передаем corpId выбранной корпорации
-                roleId: roleIdToSend
+                roleId: value // Теперь value не может быть пустым
             });
             console.log('📥 [ROLE FILTER RESPONSE] Filtered data received:', resp);
             // Обновляем только участников, роли остаются от корпорации
             filteredByRoleCache = resp.members;
             filteredMembers.value = filteredByRoleCache.slice(0, MAX_ITEMS_PAGE);
-
-            // Если выбрана роль @everyone, сбрасываем выбор (визуально показываем все роли)
-            if (isEveryoneRole) {
-                filterRoleId.value = '';
-                console.log('🔄 @everyone role selected, resetting filter to show all roles');
-            }
-
             // Не обновляем data.value.roles, чтобы сохранить роли корпорации
         } catch (error) {
             console.error('❌ Error fetching role-filtered data:', error);
@@ -485,6 +473,13 @@ function getTechForDisplay(member: CorpMember): Record<string, {level: number|st
 :deep(.corp-switch) {
   width: 110%;
   margin-left: auto;
+
+  select {
+    max-width: 15ch; /* Максимум 15 символов */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 
 .container {
