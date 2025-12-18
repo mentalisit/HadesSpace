@@ -404,9 +404,29 @@ function memberClick(mem: CorpMember) {
     if (filteredByRoleCache.length) {
         modalMem.title = mem.name;
         // noinspection TypeScriptValidateTypes
-        modalMem.lvlMap = objectArrayify(mem.tech, {
-            map: ([k, v]) => [getTechFromIndex(k), v[0]],
+
+        // Фильтруем технологии, убирая только полностью невалидные значения
+        // mem.tech содержит объекты {ts: number, level: number}
+        const filteredTech = Object.fromEntries(
+            Object.entries(mem.tech)
+                .filter(([key, value]) => {
+                    return value !== undefined &&
+                           value !== null &&
+                           typeof value === 'object' &&
+                           'level' in value &&
+                           typeof value.level === 'number' &&
+                           value.level >= 0;
+                })
+                .map(([key, value]) => {
+                    // Преобразуем объект {ts, level} в массив [level, 0] для совместимости с objectArrayify
+                    return [key, [value.level, 0]];
+                })
+        );
+
+        modalMem.lvlMap = objectArrayify(filteredTech, {
+            map: ([k, v]) => [getTechFromIndex(parseInt(k)), v[0]],
         });
+
         openMemTechList.value = true;
     }
 }
@@ -435,16 +455,23 @@ function getTechForDisplay(member: CorpMember): Record<string, {level: number|st
                 if (k in userInfo) {
                     return [k, userInfo[k].formatter(member)];
                 }
-                return [k, member.tech[getTechIndex(k)]?.[0]];
+                const techLevel = member.tech[getTechIndex(k)]?.[0];
+                return [k, techLevel !== undefined ? techLevel : 0]; // Заменяем undefined на 0
             })
             .slice(DISPLAY_USER_TECH_ITEMS * -1),
     );
 
     // eslint-disable-next-line guard-for-in
     for (const key in levels) {
+        const level = levels[key];
+        // Пропускаем технологии с уровнем 0 или undefined
+        if (level === 0 || level === undefined) {
+            continue;
+        }
+
         const val = result[key] = {
             icon: { dir: '', name: '' } as Icon.Props,
-            level: levels[key],
+            level: level,
         };
 
         if (key in modulesData) {
@@ -458,6 +485,12 @@ function getTechForDisplay(member: CorpMember): Record<string, {level: number|st
         } else {
             val.icon.dir = 'game/SpaceBuildings';
             val.icon.name = spaceBuildingsData[key].PrefabModel;
+        }
+
+        // Дополнительная проверка - если имя иконки undefined или пустое, пропускаем
+        if (!val.icon.name || val.icon.name === 'undefined') {
+            delete result[key];
+            continue;
         }
     }
     return result;
