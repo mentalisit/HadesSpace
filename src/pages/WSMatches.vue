@@ -94,9 +94,84 @@ interface Corp {
     Id: string
 }
 
-const API_ENDPOINT = 'https://ws.mentalisit.myds.me/';
-const matchesUrl = new URL('matches', API_ENDPOINT);
-const corpUrl = new URL('corps', API_ENDPOINT);
+interface Server {
+    url: string;
+    priority: number;
+}
+
+interface ServerConfig {
+    servers: Server[];
+}
+
+export class ApiClient {
+    private activeUrl: string = "";
+    private servers: Server[] = [];
+    private isInitialized: boolean = false;
+
+    constructor(
+        private configUrl: string = "https://raw.githubusercontent.com/mentalisit/bot_kz/refs/heads/master/servers.json"
+    ) {}
+
+    public async getUrl(): Promise<string> {
+        if (!this.isInitialized) {
+            await this.initialize();
+        }
+        return this.activeUrl;
+    }
+
+    private async initialize(): Promise<void> {
+        try {
+            // Загружаем конфигурацию серверов
+            const response = await fetch(this.configUrl);
+            const config: ServerConfig = await response.json();
+            
+            // Сортируем серверы по приоритету
+            this.servers = config.servers.sort((a, b) => a.priority - b.priority);
+            
+            // Проверяем каждый сервер на работоспособность
+            for (const server of this.servers) {
+                if (await this.checkServerHealth(server.url)) {
+                    this.activeUrl = server.url;
+                    this.isInitialized = true;
+                    console.log(`Selected server: ${server.url}`);
+                    return;
+                }
+            }
+            
+            throw new Error('No available servers found');
+        } catch (error) {
+            console.error('Failed to initialize API client:', error);
+            // Fallback к стандартному серверу
+            this.activeUrl = 'https://ws.mentalisit.myds.me';
+            this.isInitialized = true;
+        }
+    }
+
+    private async checkServerHealth(baseUrl: string): Promise<boolean> {
+        try {
+            const healthUrl = `${baseUrl}/ws/health`;
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 секунд таймаут
+            
+            const response = await fetch(healthUrl, {
+                method: 'GET',
+                signal: controller.signal
+            });
+            
+            clearTimeout(timeoutId);
+            
+            return response.ok;
+        } catch (error) {
+            console.warn(`Server ${baseUrl} health check failed:`, error);
+            return false;
+        }
+    }
+}
+
+const apiClient = new ApiClient();
+let API_ENDPOINT = 'https://ws.mentalisit.myds.me/';
+let matchesUrl = new URL('matches', API_ENDPOINT);
+let corpUrl = new URL('corps', API_ENDPOINT);
 
 const nowDate = new Date();
 const response = ref<Response<Match>>();
@@ -107,13 +182,11 @@ const matches = computed<Match[]>(() =>
 const page = ref(1);
 const filterCorp = ref([]);
 
-matchesUrl.searchParams.set('limit', '50');
-
 watch(page, () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     matchesUrl.searchParams.set('page', page.value.toString());
     fetchData();
-}, { immediate: true });
+});
 
 watch(filterCorp, () => {
     if (filterCorp.value.length == 0) {
@@ -126,9 +199,30 @@ watch(filterCorp, () => {
 }, { deep: true });
 
 onMounted(async () => {
-    corps.value = await fetch(corpUrl)
-        .then((r) => r.json())
-        .then((j) => j.matches);
+    try {
+        // Инициализируем API клиент и получаем рабочий сервер
+        API_ENDPOINT = await apiClient.getUrl();
+        matchesUrl = new URL('matches', API_ENDPOINT);
+        corpUrl = new URL('corps', API_ENDPOINT);
+        
+        // Устанавливаем параметры для matchesUrl
+        matchesUrl.searchParams.set('limit', '50');
+        
+        // Загружаем данные корпораций
+        corps.value = await fetch(corpUrl)
+            .then((r) => r.json())
+            .then((j) => j.matches);
+            
+        // Загружаем первые данные матчей
+        await fetchData();
+    } catch (error) {
+        console.error('Failed to initialize:', error);
+        // Если инициализация не удалась, используем fallback сервер
+        corps.value = await fetch(corpUrl)
+            .then((r) => r.json())
+            .then((j) => j.matches);
+        await fetchData();
+    }
 });
 
 async function fetchData() {
