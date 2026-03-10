@@ -133,7 +133,7 @@ class ApiClient {
             // Проверяем каждый сервер на работоспособность
             for (const server of this.servers) {
                 if (await this.checkServerHealth(server.url)) {
-                    this.activeUrl = server.url;
+                    this.activeUrl = `${server.url}/ws`;
                     this.isInitialized = true;
                     console.log(`Selected server: ${server.url}`);
                     return;
@@ -143,8 +143,8 @@ class ApiClient {
             throw new Error('No available servers found');
         } catch (error) {
             console.error('Failed to initialize API client:', error);
-            // Fallback к стандартному серверу
-            this.activeUrl = 'https://ws.mentalisit.myds.me';
+            // Если все серверы недоступны
+            this.activeUrl = '';
             this.isInitialized = true;
         }
     }
@@ -171,7 +171,7 @@ class ApiClient {
 }
 
 const apiClient = new ApiClient();
-let API_ENDPOINT = 'https://mentalisit.myds.me/ws';
+let API_ENDPOINT = '';
 let matchesUrl = new URL('matches', API_ENDPOINT);
 let corpUrl = new URL('corps', API_ENDPOINT);
 
