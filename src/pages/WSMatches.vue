@@ -76,7 +76,7 @@ import { computed, onMounted, ref, watch } from 'vue';
 import sec2str, { sec2biggestTime } from '@Utils/sec2str';
 import Pagination from '@/components/Pagination.vue';
 import MultiSelect from '@/components/MultiSelect.vue';
-import { apiClient } from '@/Utils/apiClient';
+import { apiClient } from '@/utils/apiClient';
 
 interface Response<T> {
     MaxPage: number
@@ -128,20 +128,20 @@ watch(filterCorp, () => {
 onMounted(async () => {
     try {
         API_ENDPOINT = await apiClientInstance.getUrl();
-        
+
         if (!API_ENDPOINT) {
             throw new Error('No available servers');
         }
-        
+
         matchesUrl = new URL('matches', `${API_ENDPOINT}/ws/`);
         corpUrl = new URL('corps', `${API_ENDPOINT}/ws/`);
-        
+
         matchesUrl.searchParams.set('limit', '50');
-        
+
         corps.value = await fetch(corpUrl)
             .then((r) => r.json())
             .then((j) => j.matches);
-            
+
         await fetchData();
     } catch (error) {
         console.error('Failed to initialize:', error);
