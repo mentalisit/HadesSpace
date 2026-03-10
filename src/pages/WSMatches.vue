@@ -133,7 +133,7 @@ class ApiClient {
             // Проверяем каждый сервер на работоспособность
             for (const server of this.servers) {
                 if (await this.checkServerHealth(server.url)) {
-                    this.activeUrl = `${server.url}/ws`;
+                    this.activeUrl = server.url;
                     this.isInitialized = true;
                     console.log(`Selected server: ${server.url}`);
                     return;
@@ -210,8 +210,8 @@ onMounted(async () => {
         }
         
         // Создаем URL'ы только после получения API_ENDPOINT
-        matchesUrl = new URL('matches', API_ENDPOINT);
-        corpUrl = new URL('corps', API_ENDPOINT);
+        matchesUrl = new URL('matches', `${API_ENDPOINT}/ws/`);
+        corpUrl = new URL('corps', `${API_ENDPOINT}/ws/`);
         
         // Устанавливаем параметры для matchesUrl
         matchesUrl.searchParams.set('limit', '50');
