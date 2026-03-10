@@ -172,8 +172,8 @@ class ApiClient {
 
 const apiClient = new ApiClient();
 let API_ENDPOINT = '';
-let matchesUrl = new URL('matches', API_ENDPOINT);
-let corpUrl = new URL('corps', API_ENDPOINT);
+let matchesUrl: URL;
+let corpUrl: URL;
 
 const nowDate = new Date();
 const response = ref<Response<Match>>();
@@ -204,26 +204,29 @@ onMounted(async () => {
     try {
         // Инициализируем API клиент и получаем рабочий сервер
         API_ENDPOINT = await apiClient.getUrl();
+        
+        if (!API_ENDPOINT) {
+            throw new Error('No available servers');
+        }
+        
+        // Создаем URL'ы только после получения API_ENDPOINT
         matchesUrl = new URL('matches', API_ENDPOINT);
         corpUrl = new URL('corps', API_ENDPOINT);
-
+        
         // Устанавливаем параметры для matchesUrl
         matchesUrl.searchParams.set('limit', '50');
-
+        
         // Загружаем данные корпораций
         corps.value = await fetch(corpUrl)
             .then((r) => r.json())
             .then((j) => j.matches);
-
+            
         // Загружаем первые данные матчей
         await fetchData();
     } catch (error) {
         console.error('Failed to initialize:', error);
-        // Если инициализация не удалась, используем fallback сервер
-        corps.value = await fetch(corpUrl)
-            .then((r) => r.json())
-            .then((j) => j.matches);
-        await fetchData();
+        // Показываем ошибку пользователю
+        response.value = { MaxPage: 1, matches: [] };
     }
 });
 
