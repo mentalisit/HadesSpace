@@ -61,9 +61,9 @@
     <div class="footer">
       <div class="content">
         <p>Powered by <a
-          href="https://ws.mentalisit.myds.me"
+          href="https://mentalisit.myds.me/ws"
           target="_blank"
-        >ws.mentalisit.myds.me</a>
+        >mentalisit.myds.me/ws</a>
           API
         </p>
       </div>
@@ -104,12 +104,14 @@ interface ServerConfig {
 }
 
 export class ApiClient {
-    private activeUrl: string = "";
+    private activeUrl: string = '';
+
     private servers: Server[] = [];
+
     private isInitialized: boolean = false;
 
     constructor(
-        private configUrl: string = "https://raw.githubusercontent.com/mentalisit/bot_kz/refs/heads/master/servers.json"
+        private configUrl: string = 'https://raw.githubusercontent.com/mentalisit/bot_kz/refs/heads/master/servers.json',
     ) {}
 
     public async getUrl(): Promise<string> {
@@ -124,10 +126,10 @@ export class ApiClient {
             // Загружаем конфигурацию серверов
             const response = await fetch(this.configUrl);
             const config: ServerConfig = await response.json();
-            
+
             // Сортируем серверы по приоритету
             this.servers = config.servers.sort((a, b) => a.priority - b.priority);
-            
+
             // Проверяем каждый сервер на работоспособность
             for (const server of this.servers) {
                 if (await this.checkServerHealth(server.url)) {
@@ -137,12 +139,12 @@ export class ApiClient {
                     return;
                 }
             }
-            
+
             throw new Error('No available servers found');
         } catch (error) {
             console.error('Failed to initialize API client:', error);
             // Fallback к стандартному серверу
-            this.activeUrl = 'https://ws.mentalisit.myds.me';
+            this.activeUrl = 'https://mentalisit.myds.me/ws';
             this.isInitialized = true;
         }
     }
@@ -152,14 +154,14 @@ export class ApiClient {
             const healthUrl = `${baseUrl}/ws/health`;
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 секунд таймаут
-            
+
             const response = await fetch(healthUrl, {
                 method: 'GET',
-                signal: controller.signal
+                signal: controller.signal,
             });
-            
+
             clearTimeout(timeoutId);
-            
+
             return response.ok;
         } catch (error) {
             console.warn(`Server ${baseUrl} health check failed:`, error);
@@ -169,7 +171,7 @@ export class ApiClient {
 }
 
 const apiClient = new ApiClient();
-let API_ENDPOINT = 'https://ws.mentalisit.myds.me/';
+let API_ENDPOINT = 'https://mentalisit.myds.me/ws';
 let matchesUrl = new URL('matches', API_ENDPOINT);
 let corpUrl = new URL('corps', API_ENDPOINT);
 
@@ -204,15 +206,15 @@ onMounted(async () => {
         API_ENDPOINT = await apiClient.getUrl();
         matchesUrl = new URL('matches', API_ENDPOINT);
         corpUrl = new URL('corps', API_ENDPOINT);
-        
+
         // Устанавливаем параметры для matchesUrl
         matchesUrl.searchParams.set('limit', '50');
-        
+
         // Загружаем данные корпораций
         corps.value = await fetch(corpUrl)
             .then((r) => r.json())
             .then((j) => j.matches);
-            
+
         // Загружаем первые данные матчей
         await fetchData();
     } catch (error) {
