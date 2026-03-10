@@ -103,7 +103,7 @@ interface ServerConfig {
     servers: Server[];
 }
 
-export class ApiClient {
+class ApiClient {
     private activeUrl: string = '';
 
     private servers: Server[] = [];
@@ -144,7 +144,7 @@ export class ApiClient {
         } catch (error) {
             console.error('Failed to initialize API client:', error);
             // Fallback к стандартному серверу
-            this.activeUrl = 'https://mentalisit.myds.me/ws';
+            this.activeUrl = 'https://ws.mentalisit.myds.me';
             this.isInitialized = true;
         }
     }
