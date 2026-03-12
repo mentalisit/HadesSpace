@@ -37,6 +37,11 @@ export function stop() {
 
 export async function switchInstance(clientNum: number) {
     console.log('🔄 Switching to client instance:', clientNum);
+    // Проверяем, не переключаемся ли мы на тот же клиент
+    if (client.value.constructor.name === clients[clientNum].prototype.constructor.name) {
+        console.log('⏭️ Already using client', clientNum, ', skipping switch');
+        return;
+    }
     stop();
     const events = { ...toRaw(client.value._events) };
     client.value = new clients[clientNum]();

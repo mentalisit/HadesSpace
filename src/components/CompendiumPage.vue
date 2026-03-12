@@ -182,8 +182,14 @@ onMounted(async () => {
             token: router.currentRoute.value.query.secretToken as string,
             guild: { url: '', id: '', name: '', icon: '' },
         };
-        defaultSwitchClient.value = 1;
-        selectClient(1);
+        // Проверяем, не используется ли уже клиент 1
+        if (defaultSwitchClient.value !== 1) {
+            console.log('🔄 Switching to client 1 for secretToken');
+            defaultSwitchClient.value = 1;
+            selectClient(1);
+        } else {
+            console.log('⏭️ Already using client 1, skipping switch');
+        }
         console.log('🔗 Connecting with secretToken...');
         await client.value.connect(i);
     }
