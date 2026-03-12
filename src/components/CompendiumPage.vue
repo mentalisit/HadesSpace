@@ -169,7 +169,9 @@ const linkText = computed(() => defaultSwitchClient.value === 0 ? 'HS Compendium
 onMounted(async () => {
     console.log('🏠 CompendiumPage mounted');
     isFetching.value = true;
-    // Проверяем флаг initialized вместо getUser()
+    // Ждем немного чтобы инициализация из localStorage успела завершиться
+    await new Promise(resolve => setTimeout(resolve, 100));
+    // Проверяем флаг initialized после небольшой задержки
     if (!initialized) {
         console.log('📞 Calling clientInit()...');
         await clientInit();
