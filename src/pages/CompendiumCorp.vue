@@ -261,12 +261,18 @@ client.value.on('disconnected', () => {
     store.commit(types.SET_COMPENDIUM_CORP_LAST_ROLE_ID);
 });
 onMounted(async () => {
+    console.log('🔍 CompendiumCorp mounted, client type:', typeof client.value);
+    console.log('🔍 Client value:', client.value);
+    console.log('🔍 Is client a Promise?', client.value instanceof Promise);
+    
     if (client.value.getUser()) {
         console.log('📱 Component mounted, loading corporations...');
         await loadCorporations();
         if (selectedCorporationId.value) {
             await fetchCorpForCorporation();
         }
+    } else {
+        console.log('⚠️ No user found, waiting for connection...');
     }
 });
 
@@ -303,7 +309,10 @@ watch(() => filterTech, filterByTech, { deep: true });
 async function loadCorporations() {
     try {
         console.log('🔄 Loading corporations...');
-        console.log('Client connected:', !!client.value.getUser());
+        console.log('🔍 Client connected:', !!client.value.getUser());
+        console.log('🔍 Client type in loadCorporations:', typeof client.value);
+        console.log('🔍 Is client a Promise in loadCorporations?', client.value instanceof Promise);
+        
         const userCorps: UserCorporations = await client.value.getUserCorporations();
         console.log('✅ Corporations loaded:', userCorps.corporations);
         console.log('User info:', userCorps.user);
