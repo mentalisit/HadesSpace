@@ -5,18 +5,25 @@ import { ref, toRaw } from 'vue';
 const clients = [Client1, Client2];
 
 let initialized = false;
+let initializationPromise: Promise<void> | null = null;
+
 const client = ref<Client1|Client2>(new Client1());
 
 const compendiumClient = localStorage.getItem('compendium_client');
 if (compendiumClient) {
     console.log('🔄 Found saved client in localStorage, switching to:', compendiumClient);
-    switchInstance(parseInt(compendiumClient));
+    initializationPromise = switchInstance(parseInt(compendiumClient));
 } else {
     console.log('📦 No saved client, using default client 0');
 }
 
 export default client;
 export { initialized };
+
+// Экспортируем Promise для отслеживания инициализации
+export function waitForInitialization(): Promise<void> {
+    return initializationPromise || Promise.resolve();
+}
 
 export async function init() {
     console.log('🚀 Compendium init() called, initialized:', initialized);
