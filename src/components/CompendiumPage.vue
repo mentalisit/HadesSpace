@@ -258,6 +258,9 @@ function selectClient(value: number) {
     isFetching.value = true;
     switchInstance(value).then(() => {
         isFetching.value = false;
+    }).catch(error => {
+        console.error('Error switching client:', error);
+        isFetching.value = false;
     });
 }
 function userProfileClick() {
