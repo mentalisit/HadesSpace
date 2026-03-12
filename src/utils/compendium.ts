@@ -16,6 +16,7 @@ if (compendiumClient) {
 }
 
 export default client;
+export { initialized };
 
 export async function init() {
     console.log('🚀 Compendium init() called, initialized:', initialized);
