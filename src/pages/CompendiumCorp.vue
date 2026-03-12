@@ -315,6 +315,8 @@ async function loadCorporations() {
         console.log('🔍 Client constructor:', client.value.constructor.name);
         console.log('🔍 Client properties:', Object.keys(client.value));
         console.log('🔍 Client baseURL:', (client.value as any).baseURL || (client.value as any).baseUrl || (client.value as any).url || 'undefined');
+        console.log('🔍 Nested client properties:', (client.value as any).client ? Object.keys((client.value as any).client) : 'no nested client');
+        console.log('🔍 Nested client URL:', (client.value as any).client?.baseURL || (client.value as any).client?.baseUrl || (client.value as any).client?.url || 'undefined');
         
         const userCorps: UserCorporations = await client.value.getUserCorporations();
         console.log('✅ Corporations loaded:', userCorps.corporations);
