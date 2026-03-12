@@ -264,7 +264,7 @@ onMounted(async () => {
     console.log('🔍 CompendiumCorp mounted, client type:', typeof client.value);
     console.log('🔍 Client value:', client.value);
     console.log('🔍 Is client a Promise?', client.value instanceof Promise);
-    
+
     if (client.value.getUser()) {
         console.log('📱 Component mounted, loading corporations...');
         await loadCorporations();
@@ -308,7 +308,7 @@ watch(() => filterTech, filterByTech, { deep: true });
 
 async function loadCorporations() {
     try {
-        console.log('🔄 Loading corporations...');
+        console.log('🔄 Loading corporations....');
         console.log('🔍 Client connected:', !!client.value.getUser());
         console.log('🔍 Client type in loadCorporations:', typeof client.value);
         console.log('🔍 Is client a Promise in loadCorporations?', client.value instanceof Promise);
@@ -321,7 +321,7 @@ async function loadCorporations() {
         console.log('🔍 Nested client configUrl:', (client.value as any).client?.configUrl);
         console.log('🔍 Nested client initialized:', (client.value as any).client?.initialized);
         console.log('🔍 Is activeUrl a Promise?', (client.value as any).client?.activeUrl instanceof Promise);
-        
+
         const userCorps: UserCorporations = await client.value.getUserCorporations();
         console.log('✅ Corporations loaded:', userCorps.corporations);
         console.log('User info:', userCorps.user);
