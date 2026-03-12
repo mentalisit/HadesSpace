@@ -167,15 +167,19 @@ const linkUrl = computed(() =>
 const linkText = computed(() => defaultSwitchClient.value === 0 ? 'HS Compendium' : 'invite');
 
 onMounted(async () => {
+    console.log('🏠 CompendiumPage mounted');
     isFetching.value = true;
+    console.log('📞 Calling clientInit()...');
     await clientInit();
     if ('secretToken' in router.currentRoute.value.query) {
+        console.log('🔑 secretToken found in URL');
         const i: Identity2 = {
             token: router.currentRoute.value.query.secretToken as string,
             guild: { url: '', id: '', name: '', icon: '' },
         };
         defaultSwitchClient.value = 1;
         selectClient(1);
+        console.log('🔗 Connecting with secretToken...');
         await client.value.connect(i);
     }
     const u = client.value.getUser();

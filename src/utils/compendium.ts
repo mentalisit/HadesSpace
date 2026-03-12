@@ -15,9 +15,14 @@ if (compendiumClient) {
 export default client;
 
 export async function init() {
+    console.log('🚀 Compendium init() called, initialized:', initialized);
     if (!initialized) {
+        console.log('📡 Initializing client:', client.value.constructor.name);
         await client.value.initialize();
         initialized = true;
+        console.log('✅ Client initialized successfully');
+    } else {
+        console.log('⏭️ Client already initialized, skipping');
     }
 }
 
@@ -27,10 +32,12 @@ export function stop() {
 }
 
 export async function switchInstance(clientNum: number) {
+    console.log('🔄 Switching to client instance:', clientNum);
     stop();
     const events = { ...toRaw(client.value._events) };
     client.value = new clients[clientNum]();
     client.value._events = events;
     localStorage.setItem('compendium_client', String(clientNum));
+    console.log('📦 New client created:', client.value.constructor.name);
     await init();
 }
