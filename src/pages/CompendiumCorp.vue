@@ -312,6 +312,9 @@ async function loadCorporations() {
         console.log('🔍 Client connected:', !!client.value.getUser());
         console.log('🔍 Client type in loadCorporations:', typeof client.value);
         console.log('🔍 Is client a Promise in loadCorporations?', client.value instanceof Promise);
+        console.log('🔍 Client constructor:', client.value.constructor.name);
+        console.log('🔍 Client properties:', Object.keys(client.value));
+        console.log('🔍 Client baseURL:', (client.value as any).baseURL || (client.value as any).baseUrl || (client.value as any).url || 'undefined');
         
         const userCorps: UserCorporations = await client.value.getUserCorporations();
         console.log('✅ Corporations loaded:', userCorps.corporations);
