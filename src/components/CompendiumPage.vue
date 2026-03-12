@@ -169,8 +169,13 @@ const linkText = computed(() => defaultSwitchClient.value === 0 ? 'HS Compendium
 onMounted(async () => {
     console.log('🏠 CompendiumPage mounted');
     isFetching.value = true;
-    console.log('📞 Calling clientInit()...');
-    await clientInit();
+    // Проверяем, инициализирован ли клиент перед вызовом
+    if (!client.value.getUser()) {
+        console.log('📞 Calling clientInit()...');
+        await clientInit();
+    } else {
+        console.log('⏭️ Client already initialized, skipping clientInit()');
+    }
     if ('secretToken' in router.currentRoute.value.query) {
         console.log('🔑 secretToken found in URL');
         const i: Identity2 = {

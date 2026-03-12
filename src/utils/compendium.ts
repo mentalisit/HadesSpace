@@ -9,7 +9,10 @@ const client = ref<Client1|Client2>(new Client1());
 
 const compendiumClient = localStorage.getItem('compendium_client');
 if (compendiumClient) {
+    console.log('🔄 Found saved client in localStorage, switching to:', compendiumClient);
     switchInstance(parseInt(compendiumClient));
+} else {
+    console.log('📦 No saved client, using default client 0');
 }
 
 export default client;
