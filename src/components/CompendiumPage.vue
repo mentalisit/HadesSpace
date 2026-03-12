@@ -142,7 +142,7 @@ import { useI18n } from 'vue-i18n';
 import { Guild, Identity, User } from 'bot_client';
 import { Guild as Guild2, Identity as Identity2, User as User2, Compendium as Client2 } from 'bot_client2';
 
-import client, { init as clientInit, switchInstance, initialized, waitForInitialization } from '@Utils/compendium';
+import client, { init as clientInit, switchInstance, initialized } from '@Utils/compendium';
 import memberImage from '@Img/icons/member.png';
 import types from '@/store/types';
 import types2 from '@/store/modules/userSettings/types';
@@ -168,7 +168,8 @@ const linkText = computed(() => defaultSwitchClient.value === 0 ? 'HS Compendium
 
 onMounted(async () => {
     isFetching.value = true;
-    await waitForInitialization();
+    // Ждем немного чтобы инициализация из localStorage успела завершиться
+    await new Promise(resolve => setTimeout(resolve, 200));
     if (!initialized) {
         await clientInit();
     }
