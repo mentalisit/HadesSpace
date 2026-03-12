@@ -8,9 +8,13 @@ let initialized = false;
 
 const client = ref<Client1|Client2>(new Client1());
 
+// Инициализация при загрузке модуля
 const compendiumClient = localStorage.getItem('compendium_client');
 if (compendiumClient) {
-    switchInstance(parseInt(compendiumClient)).catch(console.error);
+    // Выполняем переключение асинхронно, но не блокируем основной поток
+    setTimeout(() => {
+        switchInstance(parseInt(compendiumClient)).catch(console.error);
+    }, 0);
 }
 
 export default client;

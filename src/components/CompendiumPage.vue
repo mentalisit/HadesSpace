@@ -169,7 +169,7 @@ const linkText = computed(() => defaultSwitchClient.value === 0 ? 'HS Compendium
 onMounted(async () => {
     isFetching.value = true;
     // Ждем немного чтобы инициализация из localStorage успела завершиться
-    await new Promise(resolve => setTimeout(resolve, 200));
+    await new Promise(resolve => setTimeout(resolve, 300));
     if (!initialized) {
         await clientInit();
     }
@@ -181,6 +181,8 @@ onMounted(async () => {
         if (defaultSwitchClient.value !== 1) {
             defaultSwitchClient.value = 1;
             selectClient(1);
+            // Ждем завершения переключения клиента
+            await new Promise(resolve => setTimeout(resolve, 100));
         }
         await client.value.connect(i);
     }
