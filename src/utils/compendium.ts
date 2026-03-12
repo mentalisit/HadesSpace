@@ -33,8 +33,10 @@ export function stop() {
 }
 
 export async function switchInstance(clientNum: number) {
+    console.log('🔄 Switching to client instance:', clientNum);
     // Проверяем, не переключаемся ли мы на тот же клиент
     if (client.value.constructor.name === clients[clientNum].prototype.constructor.name) {
+        console.log('⏭️ Already using client', clientNum, ', skipping switch');
         return;
     }
     stop();
@@ -42,5 +44,7 @@ export async function switchInstance(clientNum: number) {
     client.value = new clients[clientNum]();
     client.value._events = events;
     localStorage.setItem('compendium_client', String(clientNum));
+    console.log('📦 New client created:', client.value.constructor.name);
+    console.log('🔍 Client URL after creation:', (client.value as any).baseUrl || (client.value as any).baseURL || 'undefined');
     await init();
 }

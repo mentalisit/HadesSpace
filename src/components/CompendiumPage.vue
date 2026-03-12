@@ -257,11 +257,14 @@ function selectUserAlt(value: string) {
 }
 
 function selectClient(value: number) {
+    console.log('🔄 selectClient called with value:', value);
     isFetching.value = true;
     switchInstance(value).then(() => {
+        console.log('✅ Client switched successfully');
+        console.log('🔍 Client URL after switch:', (client.value as any).baseUrl || (client.value as any).baseURL || 'undefined');
         isFetching.value = false;
     }).catch(error => {
-        console.error('Error switching client:', error);
+        console.error('❌ Error switching client:', error);
         isFetching.value = false;
     });
 }
