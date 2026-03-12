@@ -167,32 +167,20 @@ const linkUrl = computed(() =>
 const linkText = computed(() => defaultSwitchClient.value === 0 ? 'HS Compendium' : 'invite');
 
 onMounted(async () => {
-    console.log('🏠 CompendiumPage mounted');
     isFetching.value = true;
-    // Ждем завершения инициализации из localStorage
     await waitForInitialization();
-    // Проверяем флаг initialized после ожидания
     if (!initialized) {
-        console.log('📞 Calling clientInit()...');
         await clientInit();
-    } else {
-        console.log('⏭️ Client already initialized, skipping clientInit()');
     }
     if ('secretToken' in router.currentRoute.value.query) {
-        console.log('🔑 secretToken found in URL');
         const i: Identity2 = {
             token: router.currentRoute.value.query.secretToken as string,
             guild: { url: '', id: '', name: '', icon: '' },
         };
-        // Проверяем, не используется ли уже клиент 1
         if (defaultSwitchClient.value !== 1) {
-            console.log('🔄 Switching to client 1 for secretToken');
             defaultSwitchClient.value = 1;
             selectClient(1);
-        } else {
-            console.log('⏭️ Already using client 1, skipping switch');
         }
-        console.log('🔗 Connecting with secretToken...');
         await client.value.connect(i);
     }
     const u = client.value.getUser();
