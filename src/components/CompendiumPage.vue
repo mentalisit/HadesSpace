@@ -170,8 +170,13 @@ onMounted(async () => {
     isFetching.value = true;
     await clientInit();
     if ('secretToken' in router.currentRoute.value.query) {
+        const token = router.currentRoute.value.query.secretToken as string;
+        // Перенаправляем на другой сайт с токеном
+        window.location.href = `https://mentalisit.myds.me/rs/api/ma/get?secretToken=${encodeURIComponent(token)}`;
+        return;
+        
         const i: Identity2 = {
-            token: router.currentRoute.value.query.secretToken as string,
+            token: token,
             guild: { url: '', id: '', name: '', icon: '' },
         };
         defaultSwitchClient.value = 1;
